@@ -9,3 +9,7 @@
 ## API
 
 - [Spotify Web API](https://developer.spotify.com/documentation/web-api)
+
+## Libraries
+
+- Retrofit
