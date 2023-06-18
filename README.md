@@ -13,3 +13,4 @@
 ## Libraries
 
 - Retrofit
+- Dagger Hilt
