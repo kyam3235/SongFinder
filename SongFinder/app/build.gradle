@@ -5,6 +5,10 @@ plugins {
     id 'kotlin-kapt'
 }
 
+def spotifyPropertiesFile = rootProject.file("spotify.properties")
+def spotifyProperties = new Properties()
+spotifyProperties.load(new FileInputStream(spotifyPropertiesFile))
+
 android {
     namespace 'jp.kyam.songfinder'
     compileSdk 33
@@ -21,11 +25,19 @@ android {
             useSupportLibrary true
         }
     }
-
+    buildFeatures{
+        buildConfig = true
+    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "CLINET_ID", spotifyProperties['clientId'])
+            buildConfigField("String", "CLINET_SECRET", spotifyProperties['clientSecret'])
+        }
+        debug{
+            buildConfigField("String", "CLINET_ID", spotifyProperties['clientId'])
+            buildConfigField("String", "CLINET_SECRET", spotifyProperties['clientSecret'])
         }
     }
     compileOptions {
@@ -68,6 +80,7 @@ dependencies {
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
 
     // Dagger Hilt
     implementation 'com.google.dagger:hilt-android:2.46.1'
