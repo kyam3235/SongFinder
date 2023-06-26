@@ -1,14 +1,16 @@
 package jp.kyam.songfinder.api.spotify
 
-import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.Headers
+import retrofit2.Response
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 interface SpotifyApi {
-    @Headers("Content-Type")
+    @FormUrlEncoded
     @POST("api/token")
-    fun requestToken(
-        @Body request: SpotifyTokenRequest
-    ): Call<SpotifyTokenResponse>
+    suspend fun requestToken(
+        @Field("grant_type") grantType: String,
+        @Field("client_id") clientId: String,
+        @Field("client_secret") clientSecret: String
+    ): Response<SpotifyTokenResponse>
 }
