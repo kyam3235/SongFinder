@@ -7,7 +7,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import jp.kyam.songfinder.BuildConfig
 import jp.kyam.songfinder.api.spotify.SpotifyApi
-import jp.kyam.songfinder.api.spotify.SpotifyInterceptor
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -25,15 +24,7 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideSpotifyInterceptor(): SpotifyInterceptor =
-        SpotifyInterceptor(
-            clientId = BuildConfig.CLINET_ID,
-            clientSecret = BuildConfig.CLINET_SECRET
-        )
-
-    @Singleton
-    @Provides
-    fun provideOkHttpClient(spotifyInterceptor: SpotifyInterceptor): OkHttpClient {
+    fun provideOkHttpClient(): OkHttpClient {
         val client = OkHttpClient.Builder()
             .connectTimeout(90, TimeUnit.SECONDS)
             .readTimeout(90, TimeUnit.SECONDS)

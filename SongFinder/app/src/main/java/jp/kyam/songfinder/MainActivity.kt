@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
-import jp.kyam.songfinder.api.Future
 import jp.kyam.songfinder.ui.theme.MainViewModel
 import jp.kyam.songfinder.ui.theme.SongFinderTheme
 
@@ -25,11 +24,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         viewModel.spotifyToken.observe(this) {
-            when (it) {
-                is Future.Proceeding -> {}
-                is Future.Error -> Log.d("トークン", it.error.message ?: "失敗")
-                is Future.Success -> Log.d("トークン", it.value.accessToken)
-            }
+            Log.d("accessToken", it.accessToken)
+            Log.d("tokenType", it.tokenType)
+            Log.d("expiresInt", it.expiresIn.toString())
         }
 
         setContent {
