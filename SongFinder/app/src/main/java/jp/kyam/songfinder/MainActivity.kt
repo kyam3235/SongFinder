@@ -1,7 +1,6 @@
 package jp.kyam.songfinder
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -17,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
 import jp.kyam.songfinder.ui.theme.MainViewModel
 import jp.kyam.songfinder.ui.theme.SongFinderTheme
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -26,9 +26,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         viewModel.spotifyToken.observe(this) {
-            Log.d("accessToken", it.accessToken)
-            Log.d("tokenType", it.tokenType)
-            Log.d("expiresInt", it.expiresIn.toString())
+            Timber.d("accessToken: $it.accessToken")
+            Timber.d("tokenType: $it.tokenType")
+            Timber.d("expiresInt $it.expiresIn.toString()")
         }
 
         setContent {
