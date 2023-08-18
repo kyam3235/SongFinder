@@ -4,7 +4,7 @@
 
 ## 開発環境
 
-- [Android Studio Flamingo | 2022.2.1](https://developer.android.com/studio/releases?hl=ja)
+- [Android Studio Giraffe | 2022.3.1](https://developer.android.com/studio/releases)
 
 ## API
 
