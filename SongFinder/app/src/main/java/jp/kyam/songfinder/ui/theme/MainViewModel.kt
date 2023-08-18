@@ -26,4 +26,12 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
+    fun onRequestToken() {
+        viewModelScope.launch {
+            spotifyTokenRepository.requestToken().collectLatest {
+                _spotifyToken.value = it
+            }
+        }
+    }
 }

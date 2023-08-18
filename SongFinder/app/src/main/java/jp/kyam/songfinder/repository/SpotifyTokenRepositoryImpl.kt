@@ -1,5 +1,6 @@
 package jp.kyam.songfinder.repository
 
+import android.util.Log
 import jp.kyam.songfinder.BuildConfig
 import jp.kyam.songfinder.api.spotify.SpotifyApi
 import jp.kyam.songfinder.model.SpotifyToken
@@ -11,10 +12,18 @@ import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class SpotifyTokenRepositoryImpl @Inject constructor(private val spotifyApi: SpotifyApi) :
-    SpotifyTokenRepository {
-    // TODO トークンをキャッシュするよう変更
+class SpotifyTokenRepositoryImpl @Inject constructor(
+    private val spotifyApi: SpotifyApi
+) : SpotifyTokenRepository {
+    private var token: SpotifyToken? = null
+
     override suspend fun requestToken(): Flow<SpotifyToken> = flow {
+        token?.let {
+            emit(it)
+            Log.d("SpotifyToken", "get from cache")
+            return@flow
+        }
+
         val response = spotifyApi.requestToken(
             grantType = "client_credentials",
             clientId = BuildConfig.CLINET_ID,
@@ -22,12 +31,14 @@ class SpotifyTokenRepositoryImpl @Inject constructor(private val spotifyApi: Spo
         )
         if (response.isSuccessful) {
             response.body()?.let {
-                val token = SpotifyToken(
+                val newToken = SpotifyToken(
                     accessToken = it.accessToken,
                     tokenType = it.tokenType,
                     expiresIn = it.expiresIn
                 )
-                emit(token)
+                token = newToken
+                emit(newToken)
+                Log.d("SpotifyToken", "get from API")
             }
         } else {
             throw HttpException(response)
