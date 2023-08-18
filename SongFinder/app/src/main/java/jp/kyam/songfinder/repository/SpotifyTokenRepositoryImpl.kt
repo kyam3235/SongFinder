@@ -1,6 +1,5 @@
 package jp.kyam.songfinder.repository
 
-import android.util.Log
 import jp.kyam.songfinder.BuildConfig
 import jp.kyam.songfinder.api.spotify.SpotifyApi
 import jp.kyam.songfinder.model.SpotifyToken
@@ -10,6 +9,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
+import timber.log.Timber
 import javax.inject.Inject
 
 class SpotifyTokenRepositoryImpl @Inject constructor(
@@ -20,7 +20,7 @@ class SpotifyTokenRepositoryImpl @Inject constructor(
     override suspend fun requestToken(): Flow<SpotifyToken> = flow {
         token?.let {
             emit(it)
-            Log.d("SpotifyToken", "get from cache")
+            Timber.d("SpotifyToken was get from cache")
             return@flow
         }
 
@@ -38,7 +38,7 @@ class SpotifyTokenRepositoryImpl @Inject constructor(
                 )
                 token = newToken
                 emit(newToken)
-                Log.d("SpotifyToken", "get from API")
+                Timber.d("SpotifyToken was get from API")
             }
         } else {
             throw HttpException(response)
