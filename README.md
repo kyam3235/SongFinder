@@ -4,7 +4,7 @@
 
 ## 開発環境
 
-- [Android Studio Giraffe | 2022.3.1](https://developer.android.com/studio/releases)
+- [Android Studio Jellyfish | 2023.3.1 Canary 10](https://developer.android.com/studio/preview)
 
 ## API
 
